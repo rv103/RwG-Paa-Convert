@@ -1,0 +1,61 @@
+RwG Paa-Convert
+===============
+
+Grafisches Tool zum Stapel-Konvertieren von .paa-Texturen nach PNG oder TGA
+mit Pal2PacE.exe. Mehrsprachig ueber Stringtable.csv.
+
+VORAUSSETZUNG
+-------------
+Python 3.8 oder neuer (Tkinter ist dabei enthalten).
+Download: https://www.python.org/downloads/
+Beim Setup "Add python.exe to PATH" aktivieren.
+
+STARTEN
+-------
+- Doppelklick auf  RwG_Paa_Convert.bat  (nutzt pyw/pythonw, kein Konsolenfenster)
+- Alternativ:  python RwG_Paa_Convert.py
+
+DATEIEN IM PROGRAMMORDNER
+-------------------------
+  RwG_Paa_Convert.py    Programm
+  RwG_Paa_Convert.bat   Starter
+  Stringtable.csv       Uebersetzungen (bearbeitbar)
+  RwG_Logo.ico          Fenster-/Programmsymbol
+  LIESMICH.txt          diese Datei
+  RwG_Paa_Convert.settings.json   wird beim ersten Lauf angelegt (gemerkte Einstellungen)
+
+BEDIENUNG
+---------
+1. Sprache oben rechts waehlen (wird gemerkt).
+2. Pal2PacE.exe waehlen (wird beim ersten Start automatisch gesucht).
+3. Quellordner mit den .paa-Dateien waehlen.
+4. "Unterordner einbeziehen" an/aus (rekursiv).
+5. Ausgabeformat PNG oder TGA.
+6. Ausgabeort: neben Original oder separater Ordner (Struktur optional beibehalten).
+7. Optionen: vorhandene ueberspringen / Original loeschen / parallele Prozesse.
+8. "Konvertierung starten" - Fortschritt, Log und ETA laufen mit; "Abbrechen" stoppt.
+
+SPRACHEN / STRINGTABLE
+----------------------
+Die Datei Stringtable.csv enthaelt alle Texte im Arma/DayZ-typischen Format:
+erste Spalte = Schluessel (STR_RWG_...), weitere Spalten = Sprachen.
+Enthalten: English, German, French, Spanish, Italian, Portuguese, Polish,
+Russian, Czech, Chinese.
+
+Neue Sprache hinzufuegen:
+  - eine weitere Spalte mit Sprachnamen in die Kopfzeile eintragen,
+  - je Zeile die Uebersetzung ergaenzen.
+Leere Zellen fallen automatisch auf Englisch zurueck. Fehlt die CSV ganz,
+nutzt das Programm eingebautes Deutsch/Englisch.
+
+ICON
+----
+Als Symbol wird RwG_Logo.ico neben dem Programm verwendet; ist es nicht
+vorhanden, wird als Rueckfall
+  E:\Git\RwG_DayZ_Painter_Plugin\RwG_DayZ_Painter\RwG_Logo.ico
+geladen.
+
+HINWEIS
+-------
+Pal2PacE.exe leitet das Zielformat aus der Ausgabe-Endung ab (.png / .tga).
+Pro Datei wird aufgerufen:  Pal2PacE.exe "<eingabe.paa>" "<ausgabe.png|tga>"

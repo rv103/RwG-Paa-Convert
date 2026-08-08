@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# PyInstaller
+build/
+dist/
+*.manifest
+
+# App runtime
+RwG_Paa_Convert.settings.json
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+
+# Lokales Push-Helferskript
+push_to_github.bat

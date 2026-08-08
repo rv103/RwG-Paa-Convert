@@ -1,0 +1,64 @@
+name: Build & Release
+
+# Baut die portable .exe auf einem Windows-Runner und haengt sie ans Release.
+# Ausgeloest durch einen Tag wie v1.0.0 - oder manuell ueber "Run workflow".
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: python -m pip install --upgrade pip pyinstaller
+
+      - name: Build portable EXE
+        run: >
+          python -m PyInstaller --noconfirm --onefile --windowed
+          --name RwG_Paa_Convert
+          --icon RwG_Logo.ico
+          --add-data "Stringtable.csv;."
+          --add-data "RwG_Logo.ico;."
+          RwG_Paa_Convert.py
+
+      - name: Assemble portable package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path package | Out-Null
+          Copy-Item dist/RwG_Paa_Convert.exe package/
+          Copy-Item Stringtable.csv           package/
+          Copy-Item README.md                 package/
+          Copy-Item LICENSE                    package/
+          Copy-Item LIESMICH.txt               package/
+          Compress-Archive -Path package/* -DestinationPath RwG-Paa-Convert-portable.zip -Force
+
+      - name: Upload build artifacts (for manual runs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: RwG-Paa-Convert
+          path: |
+            dist/RwG_Paa_Convert.exe
+            RwG-Paa-Convert-portable.zip
+
+      - name: Create / update Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/RwG_Paa_Convert.exe
+            RwG-Paa-Convert-portable.zip
+          generate_release_notes: true
